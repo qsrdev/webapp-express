@@ -19,20 +19,30 @@ const index = (req, res) => {
   });
 };
 
-//show postid
+//show postid con doppia richiesta sql
 const show = (req, res) => {
   const id = req.params.id;
-  const sql = "SELECT * FROM movies WHERE id = ?;";
 
-  connection.query(sql, [id], (err, result) => {
-    if (result.length == 0) {
-      res.status(404).json({
-        error: "film non trovato",
-      });
+  const movieRequest = `SELECT movies.*
+                        FROM movies
+                        WHERE movies.id = ?`;
+
+  const reviewRequest = `SELECT *
+                        FROM reviews
+                        WHERE reviews.movie_id = ?`;
+
+  connection.query(movieRequest, [id], (err, movieResult) => {
+    if (err) {
+      console.log(err);
     } else {
-      console.log(`stampo il film con id ${id}`);
-      res.status(200).json({
-        data: result[0],
+      connection.query(reviewRequest, [id], (err, reviewResult) => {
+        console.log(`stampo il film numero ${id}`);
+        res.status(200).json({
+          data: {
+            ...movieResult[0],
+            reviews: reviewResult,
+          },
+        });
       });
     }
   });
