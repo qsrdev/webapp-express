@@ -20,5 +20,22 @@ const index = (req, res) => {
 };
 
 //show postid
+const show = (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM movies WHERE id = ?;";
 
-export default { index };
+  connection.query(sql, [id], (err, result) => {
+    if (result.length == 0) {
+      res.status(404).json({
+        error: "film non trovato",
+      });
+    } else {
+      console.log(`stampo il film con id ${id}`);
+      res.status(200).json({
+        data: result[0],
+      });
+    }
+  });
+};
+
+export default { index, show };
