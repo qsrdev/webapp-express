@@ -10,10 +10,19 @@ const index = (req, res) => {
         error: "film non trovato",
       });
     } else {
+      const movies = result.map((curMoovie) => {
+        console.log(curMoovie);
+
+        return {
+          ...curMoovie,
+          image: `${req.imagePath}/${curMoovie.title}`,
+        };
+      });
+
       res.status(200).json({
         info: "Stampo i film",
         totalcount: result.length,
-        data: result,
+        data: movies,
       });
     }
   });

@@ -2,6 +2,7 @@ import express from "express";
 import moovieRouter from "./routers/moovie.js";
 import notFound from "./middleware/notFound404.js";
 import errorHandler from "./middleware/errorHandler.js";
+import imagePath from "./middleware/imagePath.js";
 
 const app = express();
 const port = process.env.SERVER_PORT;
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 //routes
-app.use("/movies", moovieRouter);
+app.use("/movies", imagePath, moovieRouter);
 
 //404
 app.use(notFound);
