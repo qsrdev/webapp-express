@@ -1,17 +1,17 @@
 {
-  "dependencies": {
-    "express": "^5.1.0",
-    "mysql2": "^3.14.1"
-  },
   "name": "webapp-express",
   "version": "1.0.0",
-  "main": "app.js",
+  "description": "Task 26/06/2025",
+  "main": "index.js",
   "type": "module",
-  "devDependencies": {},
   "scripts": {
     "dev": "node --watch app.js"
   },
-  "author": "",
+  "author": "Matteo Albertini",
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
 }
