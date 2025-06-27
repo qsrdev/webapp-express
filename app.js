@@ -8,6 +8,8 @@ import cors from "cors";
 const app = express();
 const port = process.env.SERVER_PORT;
 
+//Metto prima di tutto cors che mi permette di collegarte il backend con il frontent senza essere respinto
+// salvato la varaibile dell'indirizz del mio sito dentro SITE_URL
 app.use(
   cors({
     origin: process.env.SITE_URL,
