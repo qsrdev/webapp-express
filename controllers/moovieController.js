@@ -41,8 +41,8 @@ const show = (req, res) => {
 
   connection.query(movieRequest, [slug], (err, movieResult) => {
     if (err) {
-      return res.status(500).json({
-        status: "500",
+      return res.status(404).json({
+        status: "404",
         info: "Non è possibile soddisfare la tua richiesta",
       });
     } else {
@@ -68,10 +68,10 @@ const storeReview = (req, res, next) => {
 
   const movieRequest = `SELECT *
                       FROM movies
-                      WHERE movies.id = ?`;
+                      WHERE id = ?`;
 
-  connection.query(movieRequest, [id], (err, results) => {
-    if (results.length === 0) {
+  connection.query(movieRequest, [id], (err, movieResult) => {
+    if (movieResult.length === 0) {
       return res.status(404).json({
         error: "Movie not found",
       });
