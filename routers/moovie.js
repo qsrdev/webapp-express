@@ -8,6 +8,6 @@ router.get("/", moovieController.index);
 //show
 router.get("/:slug", moovieController.show);
 //post recensione
-// router.post("/", moovieController.store)
+router.post("/:id/reviews", moovieController.storeReview);
 
 export default router;

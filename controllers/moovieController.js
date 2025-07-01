@@ -95,4 +95,4 @@ const storeReview = (req, res, next) => {
   });
 };
 
-export default { index, show };
+export default { index, show, storeReview };
