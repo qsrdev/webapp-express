@@ -6,6 +6,8 @@ const router = express.Router();
 //index
 router.get("/", moovieController.index);
 //show
-router.get("/:id", moovieController.show);
+router.get("/:slug", moovieController.show);
+//post recensione
+// router.post("/", moovieController.store)
 
 export default router;
