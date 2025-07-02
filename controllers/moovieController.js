@@ -61,6 +61,53 @@ const show = (req, res) => {
   });
 };
 
+const validateRequest = (req) => {
+  const { title, director, abstract } = req.body;
+  if (!title || !director) {
+    return false;
+  }
+  if (title.length < 4 || director.length < 4 || abstract.length < 20) {
+    return false;
+  }
+};
+
+const store = (req, res, next) => {
+  if (!validateRequest(req)) {
+    return res.status(400).json({
+      error: "Wrong Data",
+    });
+  }
+  console.log(validateRequest(req));
+
+  //prelevo i dati dal body del form
+  const { title, director, abstract } = req.body;
+
+  const image = req.file.filename;
+
+  //ho installato un programma chiamato slugify che permette di convertire i titoli dei libri del form al formato corretto
+  //in questo caso metterà tutto in minuscolo e leverà gli spazi mettendo dei trattini
+  const slug = slugify(title, {
+    lower: true,
+    strinct: true,
+  });
+
+  const newBookSql = `INSERT INTO books (slug, title, director, abstract, image)
+               VALUES (?, ?, ?, ?, ?)`;
+
+  // Eseguiamo la query
+  connection.query(newBookSql, [slug, title, director, abstract, image], (err, results) => {
+    //  Se c'è errore lo giestiamo
+    if (err) {
+      return next(new Error(err));
+    }
+    //  Invio la risposta con il codie 201 e id e slug
+    return res.status(201).json({
+      id: results.insertId,
+      slug,
+    });
+  });
+};
+
 //store della recensione
 const storeReview = (req, res, next) => {
   const { id } = req.params;
